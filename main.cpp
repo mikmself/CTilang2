@@ -397,18 +397,14 @@ int main() {
         cout << "b. Tampilkan Data Tilang" << endl;
         cout << "c. Tampilkan Data Tilang (Inorder Traversal)" << endl;
         cout << "d. Tampilkan Data Tilang (Graph)" << endl;
-        cout << "e. Cek apakah Stack kosong" << endl;
-        cout << "f. Cek apakah Queue Kosong" << endl;
-        cout << "g. Tambahkan Edge pada Graph" << endl;
-        cout << "h. Hapus Edge dari Graph" << endl;
-        cout << "i. Edit data tilang" << endl;
-        cout << "j. Hapus data tilang" << endl;
-        cout << "k. Cari data tilang" << endl;
-        cout << "l. Urutkan data tilang" << endl;
-        cout << "m. Konfirmasi pembayaran tilang" << endl;
-        cout << "n. Laporan uang pembayaran tilang" << endl;
-        cout << "o. Tampilkan data tilang yang sudah dibayar" << endl;
-        cout << "p. Tampilkan data tilang yang belum dibayar" << endl;
+        cout << "e. Edit data tilang" << endl;
+        cout << "f. Hapus data tilang" << endl;
+        cout << "g. Cari data tilang" << endl;
+        cout << "h. Urutkan data tilang" << endl;
+        cout << "i. Konfirmasi pembayaran tilang" << endl;
+        cout << "j. Laporan uang pembayaran tilang" << endl;
+        cout << "k. Tampilkan data tilang yang sudah dibayar" << endl;
+        cout << "l. Tampilkan data tilang yang belum dibayar" << endl;
         cout << "q. Quit" << endl;
         cout << "========================================" << endl;
         cout << "Masukkan pilihan (a, b, c, d, e): ";
@@ -488,57 +484,7 @@ int main() {
                 }
                 break;
             }
-            case 'e': {
-                // Cek apakah stack kosong
-                if (stack.isEmpty()) {
-                    cout << "Stack kosong." << endl;
-                } else {
-                    cout << "Stack tidak kosong." << endl;
-                }
-                break;
-            }
-            case 'f': {
-                // Cek apakah queue kosong
-                if (queue.isEmpty()) {
-                    cout << "Queue kosong." << endl;
-                } else {
-                    cout << "Queue tidak kosong." << endl;
-                }
-                break;
-            }
-            case 'g': {
-                // Tambahkan edge pada graph
-                if (jumlahTilang < 2) {
-                    cout << "Tidak cukup tilang untuk membuat edge." << endl;
-                } else {
-                    int source, destination;
-                    cout << "Masukkan kode tilang sumber: ";
-                    cin >> source;
-                    cout << "Masukkan kode tilang tujuan: ";
-                    cin >> destination;
-
-                    graph.addEdge(source, destination);
-                    cout << "Edge telah ditambahkan." << endl;
-                }
-                break;
-            }
-            case 'h': {
-                // Hapus edge dari graph
-                if (jumlahTilang < 2) {
-                    cout << "Tidak cukup tilang untuk menghapus edge." << endl;
-                } else {
-                    int source, destination;
-                    cout << "Masukkan kode tilang sumber: ";
-                    cin >> source;
-                    cout << "Masukkan kode tilang tujuan: ";
-                    cin >> destination;
-
-                    graph.removeEdge(source, destination);
-                    cout << "Edge telah dihapus." << endl;
-                }
-                break;
-            }
-            case 'i':{
+            case 'e':{
                 if (jumlahTilang > 0)
                 {
                     cout << endl << endl;
@@ -588,7 +534,7 @@ int main() {
                 }
                 break;
             }
-            case 'j' : {
+            case 'f' : {
                 if (jumlahTilang > 0)
                 {
                     cout << endl << endl;
@@ -620,7 +566,7 @@ int main() {
                 }
                 break;
             }
-            case 'k' : {
+            case 'g' : {
                 if (jumlahTilang > 0)
                 {
                     cout << endl << endl;
@@ -653,7 +599,7 @@ int main() {
                 }
                 break;
             }
-            case 'l' :{
+            case 'h' :{
                 cout << endl << endl;
                 cout << "=== Urutkan Data Tilang ===" << endl;
                 bubbleSort(dataTilang, jumlahTilang);
@@ -661,7 +607,7 @@ int main() {
                 cout << endl << endl;
                 break;
             }
-            case 'm' :{
+            case 'i' :{
                 if (jumlahTilang > 0)
                 {
                     cout << endl << endl;
@@ -679,7 +625,7 @@ int main() {
                 }
                 break;
             }
-            case 'n' :{
+            case 'j' :{
                 cout << endl << endl;
                 cout << "=== Laporan Uang Pembayaran Tilang ===" << endl;
                 double totalDenda = calculateTotalDenda(dataTilang, jumlahTilang);
@@ -687,14 +633,14 @@ int main() {
                 cout << endl << endl;
                 break;
             }
-            case 'o' :{
+            case 'k' :{
                 cout << endl << endl;
                 cout << "=== Data Tilang Sudah Dibayar ===" << endl;
                 tampilDataTilangSudahDibayar(dataTilang, jumlahTilang);
                 cout << endl << endl;
                 break;
             }
-            case 'p' :{
+            case 'l' :{
                 cout << endl << endl;
                 cout << "=== Data Tilang Belum Dibayar ===" << endl;
                 tampilDataTilangBelumDibayar(dataTilang, jumlahTilang);
