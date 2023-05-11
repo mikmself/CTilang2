@@ -229,24 +229,6 @@ public:
         }
     }
 
-    void addEdge(int source, int destination) {
-        if (source >= 0 && source < numVertices && destination >= 0 && destination < numVertices) {
-            adjMatrix[source][destination] = 1;
-            adjMatrix[destination][source] = 1;
-        } else {
-            cout << "Invalid vertex." << endl;
-        }
-    }
-
-    void removeEdge(int source, int destination) {
-        if (source >= 0 && source < numVertices && destination >= 0 && destination < numVertices) {
-            adjMatrix[source][destination] = 0;
-            adjMatrix[destination][source] = 0;
-        } else {
-            cout << "Invalid vertex." << endl;
-        }
-    }
-
     void display() {
         for (int i = 0; i < numVertices; i++) {
             cout << "Data Tilang pada Vertex " << i << ":" << endl;
