@@ -1,0 +1,3 @@
+/home/mikm/CLionProjects/CTilang2/cmake-build-debug/CMakeFiles/CTilang2.dir
+/home/mikm/CLionProjects/CTilang2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/mikm/CLionProjects/CTilang2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
