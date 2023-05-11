@@ -1,7 +1,19 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <stack>
 using namespace std;
+
+struct User {
+    int kodeUser;
+    string nama;
+    string nomerTelephone;
+    string email;
+    string password;
+
+};
+
+vector<User> data_user;
 
 // Definisikan struktur data Tilang
 struct Tilang {
@@ -139,7 +151,7 @@ public:
             } else if (data->kodeTilang > node->data->kodeTilang) {
                 node = node->right;
             } else {
-                // Kalau misal kodeTilang udah di BST, bisa diatur sesuai kebutuhan               
+                // Kalau misal kodeTilang udah di BST, bisa diatur sesuai kebutuhan
                 // Misalnya, lewati atau ganti data di node tersebut.
                 return root;
             }
@@ -360,292 +372,416 @@ double calculateTotalDenda(Tilang** data, int count)
     return totalDenda;
 }
 
-int main() {
-    char pilihan;
-    bool selesai = false;
+// Fungsi untuk membuat data user baru
+void tambah_data_user() {
+    User newUser;
+    newUser.kodeUser = data_user.size() + 1;
 
-    Stack stack;
-    Queue queue;
-    BST bst;
-    Graph graph(MAX_TILANG);
+    cout << "Masukkan nama: ";
+    cin.ignore();
+    getline(cin, newUser.nama);
 
-    while (!selesai) {
-        // Tampilkan menu pilihan
-        cout << "========================================" << endl;
-        cout << "            APLIKASI CTILANG" << endl;
-        cout << "========================================" << endl;
-        cout << "Pilihan Menu:" << endl;
-        cout << "a. Tambah Data Tilang" << endl;
-        cout << "b. Tampilkan Data Tilang" << endl;
-        cout << "c. Tampilkan Data Tilang (Inorder Traversal)" << endl;
-        cout << "d. Tampilkan Data Tilang (Graph)" << endl;
-        cout << "e. Edit data tilang" << endl;
-        cout << "f. Hapus data tilang" << endl;
-        cout << "g. Cari data tilang" << endl;
-        cout << "h. Urutkan data tilang" << endl;
-        cout << "i. Konfirmasi pembayaran tilang" << endl;
-        cout << "j. Laporan uang pembayaran tilang" << endl;
-        cout << "k. Tampilkan data tilang yang sudah dibayar" << endl;
-        cout << "l. Tampilkan data tilang yang belum dibayar" << endl;
-        cout << "q. Quit" << endl;
-        cout << "========================================" << endl;
-        cout << "Masukkan pilihan (a, b, c, d, e): ";
-        cin >> pilihan;
-        cout << endl;
-        switch (pilihan) {
-            case 'a': {
-                // Tambah Data Tilang
-                if (jumlahTilang >= MAX_TILANG) {
-                    cout << "Kapasitas tilang penuh. Tidak dapat menambahkan data tilang baru." << endl;
-                } else {
-                    auto tilangBaru = new Tilang; // Buat objek Tilang baru
+    cout << "Masukkan nomor telepon: ";
+    getline(cin, newUser.nomerTelephone);
 
-                    cout << "Masukkan Kode Tilang: ";
-                    cin >> tilangBaru->kodeTilang;
-                    cout << "Masukkan Plat Nomor: ";
-                    cin.ignore();
-                    getline(cin, tilangBaru->platNomor);
-                    cout << "Masukkan Jenis Pelanggaran: ";
-                    getline(cin, tilangBaru->jenisPelanggaran);
-                    cout << "Masukkan Tempat Pelanggaran: ";
-                    getline(cin, tilangBaru->tempatPelanggaran);
-                    cout << "Masukkan Jumlah Denda: ";
-                    cin >> tilangBaru->jumlahDenda;
-                    cout << "Masukkan Status Pembayaran (1: Lunas, 0: Belum Lunas): ";
-                    cin >> tilangBaru->statusPembayaran;
+    cout << "Masukkan email: ";
+    getline(cin, newUser.email);
 
-                    dataTilang[jumlahTilang] = tilangBaru; // Menambahkan tilang baru ke dalam array
-                    jumlahTilang++;
+    cout << "Masukkan password: ";
+    getline(cin, newUser.password);
 
-                    // Tambahkan ke Stack, Queue, BST, dan Graph
-                    stack.push(tilangBaru);
-                    queue.enqueue(tilangBaru);
-                    bst.insert(tilangBaru);
-                    graph.addVertex(tilangBaru);
+    data_user.push_back(newUser);
+    cout << "Data user telah ditambahkan." << endl;
+}
 
-                    cout << "Data tilang berhasil ditambahkan." << endl;
-                }
-                break;
-            }
-            case 'b': {
-                // Tampilkan Data Tilang
-                if (jumlahTilang == 0) {
-                    cout << "Tidak ada data tilang yang tersedia." << endl;
-                } else {
-                    cout << "Data Tilang (Stack):" << endl;
-                    while (!stack.isEmpty()) {
-                        Tilang* data = stack.pop();
-                        tampilkanData(*data);
-                    }
+// Fungsi untuk menghapus data user
+void hapus_data_user() {
+    int kodeUser;
+    cout << "Masukkan kode user yang akan dihapus: ";
+    cin >> kodeUser;
 
-                    cout << "Data Tilang (Queue):" << endl;
-                    while (!queue.isEmpty()) {
-                        Tilang* data = queue.dequeue();
-                        tampilkanData(*data);
-                    }
-                }
-                break;
-            }
-            case 'c': {
-                // Tampilkan Data Tilang (Inorder Traversal BST)
-                if (jumlahTilang == 0) {
-                    cout << "Tidak ada data tilang yang tersedia." << endl;
-                } else {
-                    cout << "Data Tilang (Inorder Traversal BST):" << endl;
-                    bst.inorderTraversal();
-                }
-                break;
-            }
-            case 'd': {
-                // Tampilkan Data Tilang (Graph)
-                if (jumlahTilang == 0) {
-                    cout << "Tidak ada data tilang yang tersedia." << endl;
-                } else {
-                    cout << "Data Tilang (Graph):" << endl;
-                    graph.display();
-                }
-                break;
-            }
-            case 'e':{
-                if (jumlahTilang > 0)
-                {
-                    cout << endl << endl;
-                    cout << "=== Update Data Pelanggaran Tilang ===" << endl;
-                    cout << "Masukkan Kode Tilang yang akan diupdate: ";
-                    string kodeTilangUpdate;
-                    cin >> kodeTilangUpdate;
-                    int indexUpdate = binarySearch(dataTilang, 0, jumlahTilang - 1, kodeTilangUpdate);
-                    if (indexUpdate != -1)
-                    {
-                        cout << "Data Tilang saat ini:" << endl;
-                        cout << "Kode Tilang: " << dataTilang[indexUpdate]->kodeTilang << endl;
-                        cout << "Plat Nomor: " << dataTilang[indexUpdate]->platNomor << endl;
-                        cout << "Jenis Pelanggaran: " << dataTilang[indexUpdate]->jenisPelanggaran << endl;
-                        cout << "Tempat Pelanggaran: " << dataTilang[indexUpdate]->tempatPelanggaran << endl;
-                        cout << "Jumlah Denda: " << dataTilang[indexUpdate]->jumlahDenda << endl;
-                        cout << "Status Pembayaran: " << (dataTilang[indexUpdate]->statusPembayaran ? "Sudah Dibayar" : "Belum Dibayar") << endl;
-
-                        cout << "Masukkan data baru:" << endl;
-                        cout << "Masukkan Kode Tilang: ";
-                        cin >> dataTilang[indexUpdate]->kodeTilang;
-                        cout << "Masukkan Plat Nomor: ";
-                        cin.ignore();
-                        getline(cin, dataTilang[indexUpdate]->platNomor);
-                        cout << "Masukkan Jenis Pelanggaran: ";
-                        getline(cin, dataTilang[indexUpdate]->jenisPelanggaran);
-                        cout << "Masukkan Tempat Pelanggaran: ";
-                        getline(cin, dataTilang[indexUpdate]->tempatPelanggaran);
-                        cout << "Masukkan Jumlah Denda: ";
-                        cin >> dataTilang[indexUpdate]->jumlahDenda;
-                        cout << "Masukkan Status Pembayaran (1 = Sudah Dibayar, 0 = Belum Dibayar): ";
-                        cin >> dataTilang[indexUpdate]->statusPembayaran;
-
-                        cout << "Data Tilang berhasil diupdate." << endl;
-                        cout << endl << endl;
-                    }
-                    else
-                    {
-                        cout << "Kode Tilang tidak ditemukan." << endl;
-                        cout << endl << endl;
-                    }
-                }
-                else
-                {
-                    cout << "Tidak ada data tilang yang tersedia." << endl;
-                    cout << endl << endl;
-                }
-                break;
-            }
-            case 'f' : {
-                if (jumlahTilang > 0)
-                {
-                    cout << endl << endl;
-                    cout << "=== Hapus Data Pelanggaran Tilang ===" << endl;
-                    cout << "Masukkan Kode Tilang yang akan dihapus: ";
-                    string kodeTilangHapus;
-                    cin >> kodeTilangHapus;
-                    int indexHapus = binarySearch(dataTilang, 0, jumlahTilang - 1, kodeTilangHapus);
-                    if (indexHapus != -1)
-                    {
-                        for (int i = indexHapus; i < jumlahTilang - 1; i++)
-                        {
-                            dataTilang[i] = dataTilang[i + 1];
-                        }
-                        jumlahTilang--;
-                        cout << "Data Tilang berhasil dihapus." << endl;
-                        cout << endl << endl;
-                    }
-                    else
-                    {
-                        cout << "Kode Tilang tidak ditemukan." << endl;
-                        cout << endl << endl;
-                    }
-                }
-                else
-                {
-                    cout << "Tidak ada data tilang yang tersedia." << endl;
-                    cout << endl << endl;
-                }
-                break;
-            }
-            case 'g' : {
-                if (jumlahTilang > 0)
-                {
-                    cout << endl << endl;
-                    cout << "=== Cari Data Tilang Berdasarkan Kode Tilang ===" << endl;
-                    cout << "Masukkan Kode Tilang yang akan dicari: ";
-                    string kodeTilangCari;
-                    cin >> kodeTilangCari;
-                    int indexCari = binarySearch(dataTilang, 0, jumlahTilang - 1, kodeTilangCari);
-                    if (indexCari != -1)
-                    {
-                        cout << "Data Tilang ditemukan:" << endl;
-                        cout << "Kode Tilang: " << dataTilang[indexCari]->kodeTilang << endl;
-                        cout << "Plat Nomor: " << dataTilang[indexCari]->platNomor << endl;
-                        cout << "Jenis Pelanggaran: " << dataTilang[indexCari]->jenisPelanggaran << endl;
-                        cout << "Tempat Pelanggaran: " << dataTilang[indexCari]->tempatPelanggaran << endl;
-                        cout << "Jumlah Denda: " << dataTilang[indexCari]->jumlahDenda << endl;
-                        cout << "Status Pembayaran: " << (dataTilang[indexCari]->statusPembayaran ? "Sudah Dibayar" : "Belum Dibayar") << endl;
-                        cout << endl << endl;
-                    }
-                    else
-                    {
-                        cout << "Kode Tilang tidak ditemukan." << endl;
-                        cout << endl << endl;
-                    }
-                }
-                else
-                {
-                    cout << "Tidak ada data tilang yang tersedia." << endl;
-                    cout << endl << endl;
-                }
-                break;
-            }
-            case 'h' :{
-                cout << endl << endl;
-                cout << "=== Urutkan Data Tilang ===" << endl;
-                bubbleSort(dataTilang, jumlahTilang);
-                cout << "Data Tilang berhasil diurutkan." << endl;
-                cout << endl << endl;
-                break;
-            }
-            case 'i' :{
-                if (jumlahTilang > 0)
-                {
-                    cout << endl << endl;
-                    cout << "=== Konfirmasi Pembayaran Tilang ===" << endl;
-                    cout << "Masukkan Kode Tilang yang akan dikonfirmasi pembayarannya: ";
-                    string kodeTilangBayar;
-                    cin >> kodeTilangBayar;
-                    updatePaymentStatus(dataTilang, jumlahTilang, kodeTilangBayar);
-                    cout << endl << endl;
-                }
-                else
-                {
-                    cout << "Tidak ada data tilang yang tersedia." << endl;
-                    cout << endl << endl;
-                }
-                break;
-            }
-            case 'j' :{
-                cout << endl << endl;
-                cout << "=== Laporan Uang Pembayaran Tilang ===" << endl;
-                double totalDenda = calculateTotalDenda(dataTilang, jumlahTilang);
-                cout << "Total Uang Pembayaran Tilang: " << totalDenda << endl;
-                cout << endl << endl;
-                break;
-            }
-            case 'k' :{
-                cout << endl << endl;
-                cout << "=== Data Tilang Sudah Dibayar ===" << endl;
-                tampilDataTilangSudahDibayar(dataTilang, jumlahTilang);
-                cout << endl << endl;
-                break;
-            }
-            case 'l' :{
-                cout << endl << endl;
-                cout << "=== Data Tilang Belum Dibayar ===" << endl;
-                tampilDataTilangBelumDibayar(dataTilang, jumlahTilang);
-                cout << endl << endl;
-                break;
-            }
-            case 'q': {
-                // Keluar
-                selesai = true;
-                break;
-            }
-            default:
-                cout << "Pilihan tidak valid. Silakan pilih menu yang tersedia." << endl;
+    for (auto it = data_user.begin(); it != data_user.end(); ++it) {
+        if (it->kodeUser == kodeUser) {
+            data_user.erase(it);
+            cout << "Data user telah dihapus." << endl;
+            return;
         }
-        cout << endl;
     }
 
-    // Menghapus memori yang dialokasikan untuk setiap objek Tilang
-    for (int i = 0; i < jumlahTilang; i++) {
-        delete dataTilang[i];
+    cout << "Kode user tidak ditemukan." << endl;
+}
+
+// Fungsi untuk melihat data user
+void lihat_data_user() {
+    cout << "Data User:" << endl;
+    for (const auto& user : data_user) {
+        cout << "Kode User: " << user.kodeUser << endl;
+        cout << "Nama: " << user.nama << endl;
+        cout << "Nomor Telepon: " << user.nomerTelephone << endl;
+        cout << "Email: " << user.email << endl;
+        cout << "Password: " << user.password << endl;
+        cout << "-----------------------" << endl;
+    }
+}
+
+// Fungsi untuk login
+bool login() {
+    string email, password;
+    cout << "Masukkan email: ";
+    getline(cin, email);
+
+    cout << "Masukkan password: ";
+    getline(cin, password);
+
+    for (const auto& user : data_user) {
+        if (user.email == email && user.password == password) {
+            cout << "Login berhasil." << endl;
+            return true;
+        }
+    }
+
+    cout << "Email atau password salah." << endl;
+    return false;
+}
+
+// Fungsi untuk memperbarui data user
+void update_data_user() {
+    int kodeUser;
+    cout << "Masukkan kode user yang akan diperbarui: ";
+    cin >> kodeUser;
+
+    for (auto& user : data_user) {
+        if (user.kodeUser == kodeUser) {
+            cout << "Masukkan nama baru: ";
+            cin.ignore();
+            getline(cin, user.nama);
+
+            cout << "Masukkan nomor telepon baru: ";
+            getline(cin, user.nomerTelephone);
+
+            cout << "Masukkan email baru: ";
+            getline(cin, user.email);
+
+            cout << "Masukkan password baru: ";
+            getline(cin, user.password);
+
+            cout << "Data user telah diperbarui." << endl;
+            return;
+        }
+    }
+
+    cout << "Kode user tidak ditemukan." << endl;
+}
+
+int main() {
+    // Data User
+    data_user.push_back(User{ 1, "Polisi", "911", "polisi@gmail.com", "polisi123" });
+    data_user.push_back(User{ 1, "Pelanggar", "110", "pelanggar@gmail.com", "pelanggar123" });
+
+    // Alur login sebelum mengakses menu utama
+    if (login()) {
+        char pilihan;
+        bool selesai = false;
+
+        Stack stack;
+        Queue queue;
+        BST bst;
+        Graph graph(MAX_TILANG);
+
+        while (!selesai) {
+            // Tampilkan menu pilihan
+            cout << "========================================" << endl;
+            cout << "            APLIKASI CTILANG" << endl;
+            cout << "========================================" << endl;
+            cout << "Pilihan Menu:" << endl;
+            cout << "a. Tambah Data Tilang" << endl;
+            cout << "b. Tampilkan Data Tilang" << endl;
+            cout << "c. Tampilkan Data Tilang (Inorder Traversal)" << endl;
+            cout << "d. Tampilkan Data Tilang (Graph)" << endl;
+            cout << "e. Edit data tilang" << endl;
+            cout << "f. Hapus data tilang" << endl;
+            cout << "g. Cari data tilang" << endl;
+            cout << "h. Urutkan data tilang" << endl;
+            cout << "i. Konfirmasi pembayaran tilang" << endl;
+            cout << "j. Laporan uang pembayaran tilang" << endl;
+            cout << "k. Tampilkan data tilang yang sudah dibayar" << endl;
+            cout << "l. Tampilkan data tilang yang belum dibayar" << endl;
+            cout << "m. Tambah data user" << endl;
+            cout << "n. Hapus data user" << endl;
+            cout << "o. Lihat data user" << endl;
+            cout << "p. Edit data user" << endl;
+            cout << "q. Quit" << endl;
+            cout << "========================================" << endl;
+            cout << "Masukkan pilihan (a, b, c, d, e): ";
+            cin >> pilihan;
+            cout << endl;
+            switch (pilihan) {
+                case 'a': {
+                    // Tambah Data Tilang
+                    if (jumlahTilang >= MAX_TILANG) {
+                        cout << "Kapasitas tilang penuh. Tidak dapat menambahkan data tilang baru." << endl;
+                    } else {
+                        auto tilangBaru = new Tilang; // Buat objek Tilang baru
+
+                        cout << "Masukkan Kode Tilang: ";
+                        cin >> tilangBaru->kodeTilang;
+                        cout << "Masukkan Plat Nomor: ";
+                        cin.ignore();
+                        getline(cin, tilangBaru->platNomor);
+                        cout << "Masukkan Jenis Pelanggaran: ";
+                        getline(cin, tilangBaru->jenisPelanggaran);
+                        cout << "Masukkan Tempat Pelanggaran: ";
+                        getline(cin, tilangBaru->tempatPelanggaran);
+                        cout << "Masukkan Jumlah Denda: ";
+                        cin >> tilangBaru->jumlahDenda;
+                        cout << "Masukkan Status Pembayaran (1: Lunas, 0: Belum Lunas): ";
+                        cin >> tilangBaru->statusPembayaran;
+
+                        dataTilang[jumlahTilang] = tilangBaru; // Menambahkan tilang baru ke dalam array
+                        jumlahTilang++;
+
+                        // Tambahkan ke Stack, Queue, BST, dan Graph
+                        stack.push(tilangBaru);
+                        queue.enqueue(tilangBaru);
+                        bst.insert(tilangBaru);
+                        graph.addVertex(tilangBaru);
+
+                        cout << "Data tilang berhasil ditambahkan." << endl;
+                    }
+                    break;
+                }
+                case 'b': {
+                    // Tampilkan Data Tilang
+                    if (jumlahTilang == 0) {
+                        cout << "Tidak ada data tilang yang tersedia." << endl;
+                    } else {
+                        cout << "Data Tilang (Stack):" << endl;
+                        while (!stack.isEmpty()) {
+                            Tilang* data = stack.pop();
+                            tampilkanData(*data);
+                        }
+
+                        cout << "Data Tilang (Queue):" << endl;
+                        while (!queue.isEmpty()) {
+                            Tilang* data = queue.dequeue();
+                            tampilkanData(*data);
+                        }
+                    }
+                    break;
+                }
+                case 'c': {
+                    // Tampilkan Data Tilang (Inorder Traversal BST)
+                    if (jumlahTilang == 0) {
+                        cout << "Tidak ada data tilang yang tersedia." << endl;
+                    } else {
+                        cout << "Data Tilang (Inorder Traversal BST):" << endl;
+                        bst.inorderTraversal();
+                    }
+                    break;
+                }
+                case 'd': {
+                    // Tampilkan Data Tilang (Graph)
+                    if (jumlahTilang == 0) {
+                        cout << "Tidak ada data tilang yang tersedia." << endl;
+                    } else {
+                        cout << "Data Tilang (Graph):" << endl;
+                        graph.display();
+                    }
+                    break;
+                }
+                case 'e':{
+                    if (jumlahTilang > 0)
+                    {
+                        cout << endl << endl;
+                        cout << "=== Update Data Pelanggaran Tilang ===" << endl;
+                        cout << "Masukkan Kode Tilang yang akan diupdate: ";
+                        string kodeTilangUpdate;
+                        cin >> kodeTilangUpdate;
+                        int indexUpdate = binarySearch(dataTilang, 0, jumlahTilang - 1, kodeTilangUpdate);
+                        if (indexUpdate != -1)
+                        {
+                            cout << "Data Tilang saat ini:" << endl;
+                            cout << "Kode Tilang: " << dataTilang[indexUpdate]->kodeTilang << endl;
+                            cout << "Plat Nomor: " << dataTilang[indexUpdate]->platNomor << endl;
+                            cout << "Jenis Pelanggaran: " << dataTilang[indexUpdate]->jenisPelanggaran << endl;
+                            cout << "Tempat Pelanggaran: " << dataTilang[indexUpdate]->tempatPelanggaran << endl;
+                            cout << "Jumlah Denda: " << dataTilang[indexUpdate]->jumlahDenda << endl;
+                            cout << "Status Pembayaran: " << (dataTilang[indexUpdate]->statusPembayaran ? "Sudah Dibayar" : "Belum Dibayar") << endl;
+
+                            cout << "Masukkan data baru:" << endl;
+                            cout << "Masukkan Kode Tilang: ";
+                            cin >> dataTilang[indexUpdate]->kodeTilang;
+                            cout << "Masukkan Plat Nomor: ";
+                            cin.ignore();
+                            getline(cin, dataTilang[indexUpdate]->platNomor);
+                            cout << "Masukkan Jenis Pelanggaran: ";
+                            getline(cin, dataTilang[indexUpdate]->jenisPelanggaran);
+                            cout << "Masukkan Tempat Pelanggaran: ";
+                            getline(cin, dataTilang[indexUpdate]->tempatPelanggaran);
+                            cout << "Masukkan Jumlah Denda: ";
+                            cin >> dataTilang[indexUpdate]->jumlahDenda;
+                            cout << "Masukkan Status Pembayaran (1 = Sudah Dibayar, 0 = Belum Dibayar): ";
+                            cin >> dataTilang[indexUpdate]->statusPembayaran;
+
+                            cout << "Data Tilang berhasil diupdate." << endl;
+                            cout << endl << endl;
+                        }
+                        else
+                        {
+                            cout << "Kode Tilang tidak ditemukan." << endl;
+                            cout << endl << endl;
+                        }
+                    }
+                    else
+                    {
+                        cout << "Tidak ada data tilang yang tersedia." << endl;
+                        cout << endl << endl;
+                    }
+                    break;
+                }
+                case 'f' : {
+                    if (jumlahTilang > 0)
+                    {
+                        cout << endl << endl;
+                        cout << "=== Hapus Data Pelanggaran Tilang ===" << endl;
+                        cout << "Masukkan Kode Tilang yang akan dihapus: ";
+                        string kodeTilangHapus;
+                        cin >> kodeTilangHapus;
+                        int indexHapus = binarySearch(dataTilang, 0, jumlahTilang - 1, kodeTilangHapus);
+                        if (indexHapus != -1)
+                        {
+                            for (int i = indexHapus; i < jumlahTilang - 1; i++)
+                            {
+                                dataTilang[i] = dataTilang[i + 1];
+                            }
+                            jumlahTilang--;
+                            cout << "Data Tilang berhasil dihapus." << endl;
+                            cout << endl << endl;
+                        }
+                        else
+                        {
+                            cout << "Kode Tilang tidak ditemukan." << endl;
+                            cout << endl << endl;
+                        }
+                    }
+                    else
+                    {
+                        cout << "Tidak ada data tilang yang tersedia." << endl;
+                        cout << endl << endl;
+                    }
+                    break;
+                }
+                case 'g' : {
+                    if (jumlahTilang > 0)
+                    {
+                        cout << endl << endl;
+                        cout << "=== Cari Data Tilang Berdasarkan Kode Tilang ===" << endl;
+                        cout << "Masukkan Kode Tilang yang akan dicari: ";
+                        string kodeTilangCari;
+                        cin >> kodeTilangCari;
+                        int indexCari = binarySearch(dataTilang, 0, jumlahTilang - 1, kodeTilangCari);
+                        if (indexCari != -1)
+                        {
+                            cout << "Data Tilang ditemukan:" << endl;
+                            cout << "Kode Tilang: " << dataTilang[indexCari]->kodeTilang << endl;
+                            cout << "Plat Nomor: " << dataTilang[indexCari]->platNomor << endl;
+                            cout << "Jenis Pelanggaran: " << dataTilang[indexCari]->jenisPelanggaran << endl;
+                            cout << "Tempat Pelanggaran: " << dataTilang[indexCari]->tempatPelanggaran << endl;
+                            cout << "Jumlah Denda: " << dataTilang[indexCari]->jumlahDenda << endl;
+                            cout << "Status Pembayaran: " << (dataTilang[indexCari]->statusPembayaran ? "Sudah Dibayar" : "Belum Dibayar") << endl;
+                            cout << endl << endl;
+                        }
+                        else
+                        {
+                            cout << "Kode Tilang tidak ditemukan." << endl;
+                            cout << endl << endl;
+                        }
+                    }
+                    else
+                    {
+                        cout << "Tidak ada data tilang yang tersedia." << endl;
+                        cout << endl << endl;
+                    }
+                    break;
+                }
+                case 'h' :{
+                    cout << endl << endl;
+                    cout << "=== Urutkan Data Tilang ===" << endl;
+                    bubbleSort(dataTilang, jumlahTilang);
+                    cout << "Data Tilang berhasil diurutkan." << endl;
+                    cout << endl << endl;
+                    break;
+                }
+                case 'i' :{
+                    if (jumlahTilang > 0)
+                    {
+                        cout << endl << endl;
+                        cout << "=== Konfirmasi Pembayaran Tilang ===" << endl;
+                        cout << "Masukkan Kode Tilang yang akan dikonfirmasi pembayarannya: ";
+                        string kodeTilangBayar;
+                        cin >> kodeTilangBayar;
+                        updatePaymentStatus(dataTilang, jumlahTilang, kodeTilangBayar);
+                        cout << endl << endl;
+                    }
+                    else
+                    {
+                        cout << "Tidak ada data tilang yang tersedia." << endl;
+                        cout << endl << endl;
+                    }
+                    break;
+                }
+                case 'j' :{
+                    cout << endl << endl;
+                    cout << "=== Laporan Uang Pembayaran Tilang ===" << endl;
+                    double totalDenda = calculateTotalDenda(dataTilang, jumlahTilang);
+                    cout << "Total Uang Pembayaran Tilang: " << totalDenda << endl;
+                    cout << endl << endl;
+                    break;
+                }
+                case 'k' :{
+                    cout << endl << endl;
+                    cout << "=== Data Tilang Sudah Dibayar ===" << endl;
+                    tampilDataTilangSudahDibayar(dataTilang, jumlahTilang);
+                    cout << endl << endl;
+                    break;
+                }
+                case 'l' :{
+                    cout << endl << endl;
+                    cout << "=== Data Tilang Belum Dibayar ===" << endl;
+                    tampilDataTilangBelumDibayar(dataTilang, jumlahTilang);
+                    cout << endl << endl;
+                    break;
+                }
+                case 'm' :{
+                    tambah_data_user();
+                    break;
+                }
+                case 'n' :{
+                    hapus_data_user();
+                    break;
+                }
+                case 'o' :{
+                    lihat_data_user();
+                }
+                case 'p' :{
+                    update_data_user();
+                }
+                case 'q': {
+                    // Keluar
+                    selesai = true;
+                    break;
+                }
+                default:
+                    cout << "Pilihan tidak valid. Silakan pilih menu yang tersedia." << endl;
+            }
+            cout << endl;
+        }
+
+        // Menghapus memori yang dialokasikan untuk setiap objek Tilang
+        for (int i = 0; i < jumlahTilang; i++) {
+            delete dataTilang[i];
+        }
     }
 
     return 0;
 }
-
-
