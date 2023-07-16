@@ -476,7 +476,6 @@ void update_data_user() {
 int main() {
     // Data User
     data_user.push_back(User{ 1, "Polisi", "911", "polisi@gmail.com", "polisi123" });
-    data_user.push_back(User{ 1, "Pelanggar", "110", "pelanggar@gmail.com", "pelanggar123" });
 
     // Alur login sebelum mengakses menu utama
     if (login()) {
