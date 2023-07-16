@@ -505,10 +505,6 @@ int main() {
             cout << "j. Laporan uang pembayaran tilang" << endl;
             cout << "k. Tampilkan data tilang yang sudah dibayar" << endl;
             cout << "l. Tampilkan data tilang yang belum dibayar" << endl;
-            cout << "m. Tambah data user" << endl;
-            cout << "n. Hapus data user" << endl;
-            cout << "o. Lihat data user" << endl;
-            cout << "p. Edit data user" << endl;
             cout << "q. Quit" << endl;
             cout << "========================================" << endl;
             cout << "Masukkan pilihan (a, b, c, d, e): ";
